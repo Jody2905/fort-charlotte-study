@@ -1,58 +1,52 @@
 # Fort Charlotte Wayfinding Study
 
-**Does a site map help people find their way around a virtual heritage site, and does it change how well they remember the layout?**
+**Does a site map help people find their way around a virtual heritage site, and does it change how well they remember it?**
 
-A browser-based 3D model of Fort Charlotte, St. Vincent and the Grenadines, built for a small between-subjects user study. Participants explore the fort to find five landmarks, then place those landmarks on a blank outline from memory and rate the experience on the System Usability Scale (SUS). Half get an on-screen site map; half do not.
+I built a browser-based 3D model of Fort Charlotte, the hilltop fort above Kingstown in my home country, St. Vincent and the Grenadines, and designed a small user study around it.
 
-Navigation aids can weaken the mental map people build of a place: GPS users have been found to learn routes and layouts less well than people who navigate with maps or from experience [Ishikawa et al. 2008; Dahmani and Bohbot 2020]. This study tests whether that trade-off appears in a virtual heritage site, where both finding your way and remembering the place matter.
+**Try it:** [jody2905.github.io/fort-charlotte-study](https://jody2905.github.io/fort-charlotte-study/) (laptop or desktop, Chrome or Edge, about 10 minutes)
 
-## The study
+## Why
 
-| | |
+Navigation aids make it easier to get from A to B, but they may come at a cost. GPS users have been found to learn routes and layouts less well than people who navigate with a map or from direct experience [1, 2]. Virtual heritage sites are meant both to be explored and to be remembered, so I wanted to see whether the same trade-off shows up there: does a site map speed people up while weakening their memory of the place?
+
+## What participants do
+
+1. Answer three background questions: age band, 3D gaming experience, and whether they have visited the real fort.
+2. Practise walking with the keyboard and mouse.
+3. Find five landmarks in order: the Main Barracks, Officers' Quarters, Signal Station, Cannon Battery and Lookout. Each one shows a short fact about the real fort once found.
+4. Drag the five names onto a blank outline of the fort's walls, from memory.
+5. Rate the experience on the System Usability Scale (SUS) [3].
+
+Half the participants see a site map in the corner with the building names and their own position; half do not.
+
+## What I measure
+
+| Measure | How |
 |---|---|
-| Design | Between subjects, 2 conditions: **site map** (corner map with building names and your position) vs **no map** |
-| Task | Practice walk, then find 5 landmarks in a fixed order: Main Barracks, Officers' Quarters, Signal Station, Cannon Battery, Lookout. 3-minute limit per landmark |
-| Measures | Time per landmark; distance walked; **path efficiency** (shortest possible route ÷ route walked); **recall error** (metres between where a participant places each landmark and where it is); SUS score (0–100) |
-| Covariates | Age band, 3D gaming experience, whether they have visited the real fort |
-| Logging | Position and heading 5 times a second, saved in each participant's results file |
-| Time | About 10 minutes, on a laptop or desktop with keyboard and mouse |
-| Privacy | No names, emails or IP addresses; nothing is uploaded. Participants download a results file and send it to the researcher |
+| Time | Seconds to find each landmark, 3-minute limit each |
+| Path efficiency | Shortest possible walking route ÷ route actually walked, from position logs taken 5 times a second |
+| Spatial memory | Metres between where each landmark was placed on the outline and where it really is |
+| Usability | SUS score, 0–100 |
 
-The fort layout is simplified and not to scale. The landmark facts shown in the model come from the [St. Vincent and the Grenadines Tourism Authority](https://tourism.gov.vc/tourism/index.php/national-sites-of-svg/fort-charlotte) and [Wikipedia](https://en.wikipedia.org/wiki/Fort_Charlotte,_Saint_Vincent).
+The two groups are compared with Mann–Whitney U tests and rank-biserial effect sizes, which suit small samples.
 
-## Put it online (GitHub Pages, free)
+## Results
 
-1. Create a public GitHub repository named `fort-charlotte-study` and push this folder to it.
-2. On GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: main, folder: / (root) → Save**.
-3. After a minute the study is live at `https://<your-username>.github.io/fort-charlotte-study/`.
+Data collection is in progress. Results will be added here.
 
-## Run a session
+## How it's built
 
-Send each participant one of two links, alternating so the groups stay the same size:
+- **The model:** [three.js](https://threejs.org) 0.160.0, plain JavaScript and HTML, hosted free on GitHub Pages. The layout lives in one file, `layout.json`, shared by the web page and the analysis, so both use exactly the same walls and landmarks.
+- **Privacy:** no names, emails or IP addresses are collected and nothing is uploaded. Each participant downloads a small results file at the end and sends it to me.
+- **Analysis:** Python (pandas, SciPy, matplotlib). Shortest routes are computed on a 0.5 m grid of the fort with the same collision rules the browser uses.
+- **Testing:** the analysis has automated tests, and a simulator produces clearly labelled synthetic sessions for checking the pipeline before real data arrives.
 
-```
-https://<your-username>.github.io/fort-charlotte-study/?c=map
-https://<your-username>.github.io/fort-charlotte-study/?c=nomap
-```
+The fort is simplified and not to scale. The landmark facts come from the [St. Vincent and the Grenadines Tourism Authority](https://tourism.gov.vc/tourism/index.php/national-sites-of-svg/fort-charlotte) and [Wikipedia](https://en.wikipedia.org/wiki/Fort_Charlotte,_Saint_Vincent).
 
-Without `?c=`, the page picks a condition at random. Ask participants to:
-
-- use Chrome or Edge on a laptop or desktop (not a phone),
-- finish in one sitting,
-- click **Download my results** at the end and send you the file (email or WhatsApp).
-
-Put every results file you receive in `data/sessions/`.
-
-**Try it yourself first:** add `&debug=1` to a link to see your coordinates while you walk. Don't send debug links to participants, and don't put your own test files in `data/sessions/`.
-
-**Before recruiting:** this is set up as an informal pilot. If you plan to publish the results or run the study through a university, it will need approval from that university's ethics board (IRB) first.
-
-## Analyse the results
-
-Requires Python 3.10 or newer.
+## Running it yourself
 
 ```powershell
-cd C:\Projects\fort-charlotte-study
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r analysis\requirements.txt
@@ -60,48 +54,30 @@ pytest
 python analysis\analyze.py
 ```
 
-Results go to `analysis_output\`:
-
-| File | What it holds |
-|---|---|
-| `summary.md` | Map vs no-map comparison (medians, IQR, Mann–Whitney U, rank-biserial effect size) and a row per participant |
-| `participants.csv`, `per_target.csv`, `comparison.csv` | The same numbers for a spreadsheet |
-| `metrics_by_condition.png` | Time, path efficiency, recall error and SUS by condition |
-| `paths_by_condition.png` | Every participant's walking route, by condition |
-| `recall_by_condition.png` | Where participants placed each landmark from memory |
-
-**To see what the output looks like before you have participants:**
-
-```powershell
-python analysis\simulate.py
-python analysis\analyze.py --sessions data\synthetic --out analysis_output_synthetic --include-synthetic
-```
-
-These files are made up by a simple simulated walker and every chart is stamped "SYNTHETIC TEST DATA". Never report them.
-
-## Sample size
-
-With 6–8 participants per group, the study can show large differences only, and its p-values are exploratory. Report medians, ranges and effect sizes alongside them, and frame it as a pilot that motivates a larger study.
+My full notes on hosting the study, running sessions and analysing results are in [docs/running-the-study.md](docs/running-the-study.md).
 
 ## Project layout
 
 ```
 index.html            the study page
-css/style.css
 js/world.js           3D scene, walking, collisions, site map
-js/study.js           study steps, logging, recall test, SUS, results file
-layout.json           the fort layout and landmarks (shared by the page and the analysis)
-analysis/geometry.py  obstacles and shortest walking distances
-analysis/analyze.py   results files -> tables and charts
-analysis/simulate.py  synthetic sessions for testing
+js/study.js           study steps, logging, memory test, SUS, results file
+layout.json           fort layout and landmarks
+analysis/             geometry, analysis and simulator
 tests/                layout and analysis tests
-data/sessions/        participants' results files (not committed)
+docs/                 notes for running the study
 ```
 
-Built with [three.js](https://threejs.org) 0.160.0.
+## Limitations
+
+- This is a pilot: with small groups, only large differences will show up.
+- Participants use a keyboard and mouse on a screen, not a headset, so this measures desktop virtual navigation.
+- The fort is simplified, and people who know the real fort may have an advantage. I record prior visits so this can be checked.
 
 ## References
 
-- J. Brooke. SUS: A "quick and dirty" usability scale. In *Usability Evaluation in Industry*, 1996.
-- T. Ishikawa, H. Fujiwara, O. Imai, A. Okabe. Wayfinding with a GPS-based mobile navigation system: A comparison with maps and direct experience. *Journal of Environmental Psychology* 28(1), 2008.
-- L. Dahmani, V. D. Bohbot. Habitual use of GPS negatively impacts spatial memory during self-guided navigation. *Scientific Reports* 10, 2020.
+1. T. Ishikawa, H. Fujiwara, O. Imai, A. Okabe. Wayfinding with a GPS-based mobile navigation system: A comparison with maps and direct experience. *Journal of Environmental Psychology* 28(1), 2008.
+2. L. Dahmani, V. D. Bohbot. Habitual use of GPS negatively impacts spatial memory during self-guided navigation. *Scientific Reports* 10, 2020.
+3. J. Brooke. SUS: A "quick and dirty" usability scale. In *Usability Evaluation in Industry*, 1996.
+
+Jody-Ann Trimmingham · [github.com/Jody2905](https://github.com/Jody2905)
