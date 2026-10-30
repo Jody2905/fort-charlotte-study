@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "note": "Simplified, not-to-scale layout inspired by Fort Charlotte, St. Vincent. Units: metres. x = east, z = south. Rectangles are [x1, z1, x2, z2].",
+  "bounds": [-90, -42, 62, 42],
+  "plateau": [-60, -40, 60, 40],
+  "causeway": [-90, -4, -60, 4],
+  "start": {"x": -86, "z": 0, "yaw_deg": 90},
+  "walls": [
+    {"id": "perimeter-north", "rect": [-60, -40, 60, -38.5], "height": 3},
+    {"id": "perimeter-south", "rect": [-60, 38.5, 60, 40], "height": 3},
+    {"id": "perimeter-east", "rect": [58.5, -40, 60, 40], "height": 3},
+    {"id": "perimeter-west-n", "rect": [-60, -40, -58.5, -3], "height": 3},
+    {"id": "perimeter-west-s", "rect": [-60, 3, -58.5, 40], "height": 3},
+    {"id": "causeway-parapet-n", "rect": [-90, -4.5, -60, -3.5], "height": 1},
+    {"id": "causeway-parapet-s", "rect": [-90, 3.5, -60, 4.5], "height": 1},
+    {"id": "causeway-end", "rect": [-91, -4.5, -90, 4.5], "height": 1},
+    {"id": "inner-west-n", "rect": [-8, -38.5, -6.5, -6], "height": 3},
+    {"id": "inner-west-s", "rect": [-8, 6, -6.5, 38.5], "height": 3},
+    {"id": "inner-south-w", "rect": [-6.5, 8, 18, 9.5], "height": 3},
+    {"id": "inner-south-e", "rect": [26, 8, 58.5, 9.5], "height": 3},
+    {"id": "inner-battery", "rect": [30, -38.5, 31.5, -20], "height": 3}
+  ],
+  "buildings": [
+    {"id": "barracks", "name": "Main Barracks", "rect": [-46, -30, -30, 4], "height": 7, "style": "barracks"},
+    {"id": "officers", "name": "Officers' Quarters", "rect": [36, -34, 54, -21], "height": 6, "style": "officers"},
+    {"id": "signal", "name": "Signal Station", "rect": [40, 22, 50, 31], "height": 4.5, "style": "signal"},
+    {"id": "lighthouse", "name": "Lighthouse", "circle": [54, 34, 2.2], "height": 14, "style": "lighthouse"},
+    {"id": "battery", "name": "Cannon Battery", "rect": [-2, -38.5, 26, -32], "height": 0.8, "style": "battery"},
+    {"id": "lookout", "name": "Lookout", "rect": [-56, 30, -44, 38.5], "height": 0.4, "style": "lookout"}
+  ],
+  "practice": {"id": "gate", "name": "the flag at the gate", "x": -64, "z": 0, "radius": 3},
+  "targets": [
+    {"id": "barracks", "name": "Main Barracks", "x": -27, "z": -13, "radius": 5,
+     "fact": "Built for a garrison of up to 600 troops. The main barracks later held a women's prison, which closed in 2015."},
+    {"id": "officers", "name": "Officers' Quarters", "x": 45, "z": -18, "radius": 5,
+     "fact": "Now a small museum. Paintings by Lindsay Prescott here tell the history of the Black Caribs (Garifuna)."},
+    {"id": "signal", "name": "Signal Station", "x": 45, "z": 19, "radius": 5,
+     "fact": "The Fort Charlotte Light marks the entrance to Kingstown Bay, and the coastguard radio station is based here."},
+    {"id": "battery", "name": "Cannon Battery", "x": 12, "z": -29, "radius": 5,
+     "fact": "The fort was built against attack from inland, so its cannon point inland, not out to sea. Some are dated 1811."},
+    {"id": "lookout", "name": "Lookout", "x": -50, "z": 27, "radius": 5,
+     "fact": "601 feet above the sea: views over Kingstown, Bequia and the Grenadines, and Grenada on a clear day."}
+  ],
+  "target_timeout_s": 180
+}

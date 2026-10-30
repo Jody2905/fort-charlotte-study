@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fort Charlotte Wayfinding Study</title>
+  <meta name="description" content="A short research study: find your way around a virtual Fort Charlotte, St. Vincent.">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-label="3D view of Fort Charlotte"></canvas>
+
+  <!-- In-task overlays -->
+  <div id="hud" hidden>
+    <div id="task-card">
+      <div id="task-step"></div>
+      <div id="task-name"></div>
+    </div>
+    <div id="fact-card" hidden></div>
+    <canvas id="minimap" width="300" height="190" hidden aria-label="Site map"></canvas>
+    <div id="controls-hint">W A S D or arrow keys to move · drag the mouse to look around</div>
+    <div id="debug" hidden></div>
+  </div>
+
+  <!-- Full-screen panels -->
+  <main id="panel">
+    <section data-step="consent">
+      <h1>Find your way around Fort Charlotte</h1>
+      <p class="lead">A short study on how people find their way in virtual places.</p>
+      <p>You'll walk around a simplified 3D model of Fort Charlotte in St. Vincent and look for five landmarks, then answer a few questions. It takes about <strong>10 minutes</strong> and works best on a laptop or desktop with a keyboard and mouse.</p>
+      <ul>
+        <li>No name, email or other personal details are collected.</li>
+        <li>The page records how you move in the model, your answers and how long things take.</li>
+        <li>At the end you'll download a small results file and send it to the researcher.</li>
+        <li>You can stop at any time by closing the page. Nothing is sent anywhere unless you send the file yourself.</li>
+      </ul>
+      <p class="small">Researcher: Jody-Ann Trimmingham. The model is simplified and not to scale.</p>
+      <label class="check"><input type="checkbox" id="consent-box"> I am 18 or older and agree to take part.</label>
+      <button id="consent-next" disabled>Continue</button>
+    </section>
+
+    <section data-step="about" hidden>
+      <h2>A little about you</h2>
+      <fieldset>
+        <legend>Age</legend>
+        <label><input type="radio" name="age" value="18-24"> 18–24</label>
+        <label><input type="radio" name="age" value="25-34"> 25–34</label>
+        <label><input type="radio" name="age" value="35-44"> 35–44</label>
+        <label><input type="radio" name="age" value="45-54"> 45–54</label>
+        <label><input type="radio" name="age" value="55+"> 55 or older</label>
+      </fieldset>
+      <fieldset>
+        <legend>How often do you play 3D video games?</legend>
+        <label><input type="radio" name="gaming" value="never"> Never or almost never</label>
+        <label><input type="radio" name="gaming" value="sometimes"> Sometimes</label>
+        <label><input type="radio" name="gaming" value="often"> Weekly or more</label>
+      </fieldset>
+      <fieldset>
+        <legend>Have you visited the real Fort Charlotte?</legend>
+        <label><input type="radio" name="visited" value="never"> Never</label>
+        <label><input type="radio" name="visited" value="once"> Once</label>
+        <label><input type="radio" name="visited" value="several"> Several times</label>
+      </fieldset>
+      <button id="about-next" disabled>Continue</button>
+    </section>
+
+    <section data-step="practice-intro" hidden>
+      <h2>Practice: learn to move</h2>
+      <p>Use <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> or the arrow keys to walk, and hold the mouse button and drag to look around.</p>
+      <p>Walk to <strong>the flag at the gate</strong> in front of you. Take your time; this part is not measured.</p>
+      <button id="practice-start">Start practice</button>
+    </section>
+
+    <section data-step="task-intro" hidden>
+      <h2>The task</h2>
+      <p>You'll be asked to find five places inside the fort, one at a time. Walk up to each place; it counts as found when you are close to it.</p>
+      <p id="map-note" hidden>A site map in the corner shows where you are and the main buildings.</p>
+      <p>Try to be quick, and also try to remember where things are: you'll be asked about it afterwards.</p>
+      <button id="task-start">Start</button>
+    </section>
+
+    <section data-step="recall" hidden>
+      <h2>Where was everything?</h2>
+      <p>This is an outline of the fort's walls, seen from above. Drag each name to where you think that place is. You can move them again before continuing.</p>
+      <div id="recall-wrap">
+        <svg id="recall-map" aria-label="Outline of the fort"></svg>
+        <div id="recall-chips"></div>
+      </div>
+      <button id="recall-next" disabled>Continue</button>
+    </section>
+
+    <section data-step="sus" hidden>
+      <h2>About the experience</h2>
+      <p>How much do you agree with each statement? "The system" means this 3D model and its controls.</p>
+      <ol id="sus-items"></ol>
+      <button id="sus-next" disabled>Continue</button>
+    </section>
+
+    <section data-step="done" hidden>
+      <h2>Thank you!</h2>
+      <p>Please download your results file and send it to the researcher by email or WhatsApp.</p>
+      <button id="download">Download my results</button>
+      <p class="small">Your participant code is <strong id="pid-show"></strong>. The file name includes it.</p>
+    </section>
+  </main>
+
+  <script type="module" src="js/study.js"></script>
+</body>
+</html>
